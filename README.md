@@ -1,0 +1,1 @@
+# planejadordeintercambio-api
