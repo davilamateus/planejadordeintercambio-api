@@ -10,16 +10,16 @@ const Op = Sequelize.Op;
 //Add Planner Steps
 router.post('/planners/steps', auth, (req, res) => {
 
-    const { title, plannerId, status } = req.body;
+    const { title, plannerId } = req.body;
 
-    if (title !== undefined && plannerId !== undefined && status !== undefined) {
+    if (title !== undefined && plannerId !== undefined) {
         plannersSteps.create({
             title: title,
             plannerId: plannerId,
-            status: status,
+            status: true,
             userId: req.user.id
         })
-            .then(() => { res.status(201).json({ success: 'Add' }) })
+            .then((data) => { res.status(201).json(data) })
             .catch((error) => { res.status(400).json(error) })
     } else {
         res.status(400).json({ error: 'Lack Informations' })
@@ -31,12 +31,10 @@ router.post('/planners/steps', auth, (req, res) => {
 //Update Planner Steps
 router.patch('/planners/steps', auth, (req, res) => {
 
-    const { title, plannerId, status, id } = req.body;
+    const { id, status } = req.body;
 
-    if (title !== undefined && plannerId !== undefined && status !== undefined && id !== undefined) {
+    if (id !== undefined && status !== undefined) {
         plannersSteps.update({
-            title: title,
-            plannerId: plannerId,
             status: status,
         },
             {
@@ -46,7 +44,7 @@ router.patch('/planners/steps', auth, (req, res) => {
                 }
             }
         )
-            .then(() => { res.status(201).json({ success: 'Update' }) })
+            .then(() => { res.status(200).json({ success: 'Update' }) })
             .catch((error) => { res.status(400).json(error) })
     } else {
         res.status(400).json({ error: 'Lack Informations' })

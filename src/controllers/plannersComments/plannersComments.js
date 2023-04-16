@@ -18,7 +18,7 @@ router.post('/planners/comments', auth, (req, res) => {
             content: content,
             userId: req.user.id
         })
-            .then(() => { res.status(201).json({ success: 'Add' }) })
+            .then((data) => { res.status(201).json(data) })
             .catch((error) => { res.status(400).json(error) })
     } else {
         res.status(400).json({ error: 'Lack Informations' })

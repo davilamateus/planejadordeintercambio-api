@@ -28,6 +28,10 @@ const planners = connection.define('planners', {
     position: {
         type: Sequelize.INTEGER,
         allowNull: false
+    },
+    date: {
+        type: Sequelize.BIGINT,
+        allowNull: false
     }
 
 });

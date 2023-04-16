@@ -10,21 +10,23 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 
+
 //Add Planner
 router.post('/planners', auth, (req, res) => {
 
-    const { title, category, descriptions, status } = req.body;
+    const { title, category, descriptions, date } = req.body;
 
-    if (title !== undefined && category !== undefined && descriptions !== undefined && status !== undefined) {
+    if (title !== undefined && category !== undefined && descriptions !== undefined && date !== undefined) {
         plannerModel.create({
             title: title,
             category: category,
             descriptions: descriptions,
-            status: status,
+            status: 1,
+            date: date,
             position: 0,
             userId: req.user.id
         })
-            .then(() => { res.status(201).json({ success: 'Add' }) })
+            .then((data) => { res.status(200).json(data) })
             .catch((error) => { res.status(400).json(error) })
     } else {
         res.status(400).json({ error: 'Lack Informations' })
@@ -82,6 +84,20 @@ router.delete('/planners', auth, (req, res) => {
 });
 
 
+router.patch('/planner/status/', auth, (req, res) => {
+    const user = req.user;
+
+
+    plannerModel.update({
+        status: req.body.status,
+        position: req.body.position,
+
+    }, {
+        where: { [Op.and]: [{ id: req.body.id }, { userID: user.id }], }
+    }).then(() => { res.status(200).json({ sucess: 'Update' }) }).catch((error) => { res.status(400).json(error) })
+});
+
+
 
 // Get list of planners
 
@@ -90,7 +106,7 @@ router.get('/planners', auth, (req, res) => {
     plannerModel.findAll({
         where: { userId: req.user.id },
         order: [
-            ['updatedAt', 'ASC'], ['position', 'ASC'],
+            ['position', 'ASC'], ['updatedAt', 'DESC'],
             [{ model: plannersAttachments }, 'id', 'ASC'],
             [{ model: plannersComments }, 'id', 'ASC'],
             [{ model: plannersSteps }, 'id', 'ASC']
@@ -102,12 +118,36 @@ router.get('/planners', auth, (req, res) => {
             { model: plannersSteps }
         ]
     }).then((data) => {
-        res.status(200).json(data);
-    }).catch((error) => {
-        res.status(400).json(error)
-    });
+        let in_progressCount = 0
+        let in_progressList = []
+        let openCount = 0
+        let openList = []
+        let doneCount = 0
+        let doneList = []
+
+
+        data.map((item) => {
+            if (item.status == 2) {
+                in_progressCount++
+                in_progressList.push(item)
+            } else if (item.status == 1) {
+                openCount++
+                openList.push(item)
+            } else if (item.status == 3) {
+                doneCount++
+                doneList.push(item)
+            }
+
+
+        })
+        res.json({ list: { in_progress: in_progressList, open: openList, done: doneList }, counts: { in_progress: in_progressCount, open: openCount, done: doneCount } })
+    }).catch((error) => { res.status(400).json(error) })
+
 
 });
+
+
+
 
 
 

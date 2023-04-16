@@ -115,19 +115,14 @@ router.get('/finances', auth, (req, res) => {
             bugdetTotal = Number(data.budget)
 
 
-
             financeModel.findAll({
                 where: { userId: req.user.id }, order: [[orderBy, order]],
             })
                 .then((data) => {
-
-
-
                     data.map((item) => {
                         totalSpentValue = totalSpentValue + Number(item.value)
                         totalSpentPorcents = (totalSpentValue * 100) / bugdetTotal
                     })
-
 
 
                     data.map((item) => {
@@ -144,6 +139,7 @@ router.get('/finances', auth, (req, res) => {
 
 
                     coursersPorcents = (coursersValue * 100) / bugdetTotal
+                    console.log(totalSpentValue)
                     documentsPorcents = (documentsValue * 100) / bugdetTotal
                     heathPorcents = (heathValue * 100) / bugdetTotal
                     othersPorcents = (othersValue * 100) / bugdetTotal
