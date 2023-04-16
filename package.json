@@ -19,6 +19,7 @@
     "mysql2": "^2.3.3",
     "nodemailer": "^6.7.8",
     "path": "^0.12.7",
+    "rand-token": "^1.0.1",
     "sequelize": "^6.21.4",
     "twilio": "^3.82.2",
     "uuid": "^9.0.0"
