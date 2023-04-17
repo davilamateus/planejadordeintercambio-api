@@ -14,7 +14,7 @@ const planners = connection.define('planners', {
         allowNull: false
     },
     descriptions: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
     },
     category: {

@@ -38,15 +38,15 @@ router.post('/planners', auth, (req, res) => {
 //Update Planner
 router.patch('/planners', auth, (req, res) => {
 
-    const { title, category, descriptions, status, id, position } = req.body;
+    const { title, category, descriptions, id, date } = req.body;
 
-    if (title !== undefined && category !== undefined && status !== undefined && descriptions !== undefined && position !== undefined) {
+    console.log(title, category, descriptions, id, date)
+    if (title !== undefined && category !== undefined && descriptions !== undefined && date !== undefined) {
         plannerModel.update({
             title: title,
             category: category,
             descriptions: descriptions,
-            status: status,
-            position: position
+            date: date
         },
             {
                 where: {

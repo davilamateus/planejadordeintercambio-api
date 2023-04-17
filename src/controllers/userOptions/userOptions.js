@@ -124,17 +124,37 @@ router.post('/user/useroptions', auth, (req, res) => {
 //Edit User Options
 router.patch('/user/useroptions', auth, (req, res) => {
 
-    const { photo, cityId, when, budget, adsGroup } = req.body;
+    const { cityId, when, budget, adsGroup } = req.body;
 
-    if (photo !== undefined && cityId !== undefined && when !== undefined && budget !== undefined && adsGroup !== undefined) {
+    if (cityId !== undefined && when !== undefined && budget !== undefined && adsGroup !== undefined) {
         userOptionsModel.update(
             {
-                photo: photo,
                 budget: budget,
                 when: when,
                 cityId: cityId,
                 adsGroup: adsGroup,
                 userId: req.user.id
+            }, {
+            where: { userId: req.user.id }
+        }
+        ).then(() => {
+            res.status(200).json({ message: 'Update' });
+        })
+
+    } else {
+        res.status(203).json({ error: 'Lack of informations' })
+    }
+});
+
+//Edit Photo
+router.patch('/user/useroptions/photo', auth, (req, res) => {
+
+    const { photo, } = req.body;
+
+    if (photo !== undefined) {
+        userOptionsModel.update(
+            {
+                photo: photo,
             }, {
             where: { userId: req.user.id }
         }
