@@ -124,20 +124,26 @@ router.post('/user/useroptions', auth, (req, res) => {
 //Edit User Options
 router.patch('/user/useroptions', auth, (req, res) => {
 
-    const { cityId, when, budget, adsGroup } = req.body;
+    const { cityId, when, budget, name } = req.body;
 
-    if (cityId !== undefined && when !== undefined && budget !== undefined && adsGroup !== undefined) {
+    if (cityId !== undefined && when !== undefined && budget !== undefined && name !== undefined) {
         userOptionsModel.update(
             {
                 budget: budget,
                 when: when,
                 cityId: cityId,
-                adsGroup: adsGroup,
                 userId: req.user.id
             }, {
             where: { userId: req.user.id }
         }
         ).then(() => {
+            Users.update({
+                name: name
+            }
+                , {
+                    where: { id: req.user.id }
+                })
+        }).then(() => {
             res.status(200).json({ message: 'Update' });
         })
 
@@ -148,7 +154,6 @@ router.patch('/user/useroptions', auth, (req, res) => {
 
 //Edit Photo
 router.patch('/user/useroptions/photo', auth, (req, res) => {
-
     const { photo, } = req.body;
 
     if (photo !== undefined) {

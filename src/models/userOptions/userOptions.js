@@ -16,11 +16,11 @@ const userOptions = connection.define('userOptions', {
         allowNull: false
     },
     when: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
         allowNull: false
     },
     budget: {
-        type: Sequelize.STRING,
+        type: Sequelize.BIGINT,
         allowNull: false
     },
     adsGroup: {

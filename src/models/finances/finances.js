@@ -22,7 +22,7 @@ const finances = connection.define('finances', {
         allowNull: false
     },
     value: {
-        type: Sequelize.STRING,
+        type: Sequelize.BIGINT,
         allowNull: false
     }
 
