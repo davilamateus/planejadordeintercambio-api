@@ -111,8 +111,6 @@ router.post('/user/login', (req, res) => {
                                 userOptionsModel.findAll({
                                     where: { userId: data.id }
                                 }).then((result) => {
-                                    console.log('O ReSULTADOOOOOO')
-                                    console.log(result)
                                     if (result.length > 0) {
                                         res.status(200).json({ message: 'Password Correct', token: tokenJwt, redirect: '/' });
                                     } else {
@@ -213,7 +211,6 @@ router.post('/user/forget-password', (req, res) => {
             if (data) {
                 if (data.used == false) {
                     if ((new Date(data.createdAt).getTime() + 300000) > new Date().getTime()) {
-                        console.log(data.email)
                         usersModels.update(
                             { password: hash },
                             { where: { email: data.email } })

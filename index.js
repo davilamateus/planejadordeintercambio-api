@@ -25,6 +25,7 @@ const plannersAttachmentsModels = require('./src/models/plannersAttachments/plan
 const plannersStepsModels = require('./src/models/plannersSteps/plannersSteps');
 const plannersCommentsModels = require('./src/models/plannersComments/plannersComments');
 const plannersSuggestionsModels = require('./src/models/plannersSuggestions/plannersSuggestions');
+const practiveLanguageModels = require('./src/models/practiceLanguage/practiceLanguage');
 
 
 
@@ -42,6 +43,7 @@ const plannersStepsController = require('./src/controllers/plannersSteps/planner
 const plannersAttachmentsController = require('./src/controllers/plannersAttachments/plannersAttachments');
 const plannersCommentsController = require('./src/controllers/plannersComments/plannersComments');
 const plannersSuggestionsController = require('./src/controllers/plannersSuggestions/plannersSuggestions');
+const practiveLanguageController = require('./src/controllers/practiceLanguage/practiceLanguage');
 
 
 app.use(cors());
@@ -70,6 +72,7 @@ app.use('/', plannersStepsController);
 app.use('/', plannersAttachmentsController);
 app.use('/', plannersCommentsController);
 app.use('/', plannersSuggestionsController);
+app.use('/', practiveLanguageController);
 
 
 

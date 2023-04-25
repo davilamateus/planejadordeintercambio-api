@@ -80,7 +80,6 @@ router.post('/user/useroptions', auth, (req, res) => {
                 }).then((creadingStepsAttchaments) => {
                     if (item.steps.length > 0) {
                         item.steps.map((steps) => {
-                            console.log(steps)
                             plannersSteps.create({
                                 title: steps,
                                 status: false,
@@ -196,7 +195,6 @@ var upload = multer({
 
 router.post('/user/photo', upload.single('file'), function (req, res, next) {
     const result = req.file
-    console.log(result)
     res.status(200).json(result)
     return false;
 })

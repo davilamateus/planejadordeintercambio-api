@@ -26,6 +26,10 @@ const countries = connection.define('countries', {
     currencySymbol: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    language: {
+        type: Sequelize.STRING,
+        allowNull: false
     }
 
 });

@@ -140,7 +140,7 @@ router.get('/planners', auth, (req, res) => {
 
 
         })
-        res.json({ list: { in_progress: in_progressList, open: openList, done: doneList }, counts: { in_progress: in_progressCount, open: openCount, done: doneCount } })
+        res.json({ list: { in_progress: in_progressList, open: openList, done: doneList, all: data }, counts: { in_progress: in_progressCount, open: openCount, done: doneCount } })
     }).catch((error) => { res.status(400).json(error) })
 
 

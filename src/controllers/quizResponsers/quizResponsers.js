@@ -52,7 +52,6 @@ router.post('/user/quizresponses', auth, (req, res) => {
 router.get('/admin/quizresponse', authAdmin, (req, res) => {
 
     const userId = req.query['userId'];
-    console.log(userId)
 
     if (userId !== undefined) {
 

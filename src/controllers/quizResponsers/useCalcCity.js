@@ -45,6 +45,5 @@ function CalcCity(response1, response1_1, response2, response3, response4, respo
 
 
 }
-console.log(CalcCity(2, 0, 1, 2, 3, 1, 2, 3))
 
 module.exports = CalcCity
