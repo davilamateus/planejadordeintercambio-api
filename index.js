@@ -56,8 +56,7 @@ app.use(bodyPaser.urlencoded({ extended: false }))
 
 
 
-
-app.use('/', express.static('./public/'));
+app.use(express.static('public'))
 app.use('/', usersController);
 app.use('/', userOptionsController);
 app.use('/', quizResponsers);
