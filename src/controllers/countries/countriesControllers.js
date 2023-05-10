@@ -19,10 +19,24 @@ router.get('/countries', (req, res) => {
         .catch((error) => { res.status(400).json(error) });
 });
 
+
+// Get a Country and Cities
+router.get('/country', (req, res) => {
+    const id = req.query['id'];
+    CountriesModel.findOne({
+        include: [{ model: CitiesModel }],
+        where: { id: id }
+    })
+        .then((data) => { res.status(200).json(data) })
+        .catch((error) => { res.status(400).json(error) });
+});
+
+
+
+
 // Add Country
 router.post('/admin/country', authAdmin, (req, res) => {
-    const user = req.user;
-    const { title, flag, descriptions, englishTitle, currency, currencySymbol } = req.body;
+    const { title, flag, descriptions, englishTitle, currency, currencySymbol, language } = req.body;
     if (title !== undefined && flag !== undefined && descriptions !== undefined && currency !== undefined && englishTitle !== undefined && currencySymbol !== undefined) {
         CountriesModel.create({
             title: title,
@@ -30,7 +44,8 @@ router.post('/admin/country', authAdmin, (req, res) => {
             englishTitle: englishTitle,
             flag: flag,
             currency: currency,
-            currencySymbol: currencySymbol
+            currencySymbol: currencySymbol,
+            language: language
         })
             .then(() => { res.status(201).json({ success: 'Country Add' }) })
             .catch((error) => { res.status(400).json(error) })
@@ -42,8 +57,7 @@ router.post('/admin/country', authAdmin, (req, res) => {
 
 
 router.patch('/admin/country', authAdmin, (req, res) => {
-    const user = req.user;
-    const { title, flag, descriptions, englishTitle, currency, currencySymbol, id } = req.body;
+    const { title, flag, descriptions, englishTitle, currency, currencySymbol, id, language } = req.body;
 
     if (title !== undefined && flag !== undefined && descriptions !== undefined && currency !== undefined && englishTitle !== undefined && currencySymbol !== undefined) {
         CountriesModel.update({
@@ -51,6 +65,7 @@ router.patch('/admin/country', authAdmin, (req, res) => {
             descriptions: descriptions,
             englishTitle: englishTitle,
             flag: flag,
+            language: language,
             currency: currency,
             currencySymbol: currencySymbol
         },

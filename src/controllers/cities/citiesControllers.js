@@ -9,7 +9,7 @@ const CountriesModel = require('../../models/countries/countries')
 // Get only one city
 router.get('/city', (req, res) => {
     const id = req.query['id'];
-    CitiesModel.findAll(
+    CitiesModel.findOne(
         {
             where: { id: id },
             include: [{ model: CountriesModel }]

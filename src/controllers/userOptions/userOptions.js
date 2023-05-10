@@ -74,15 +74,16 @@ router.post('/user/useroptions', auth, (req, res) => {
                     title: item.title,
                     descriptions: item.descriptions,
                     category: item.category,
-                    status: 0,
+                    status: 1,
                     position: 0,
+                    date: (new Date().getTime()) + 11536000000,
                     userId: req.user.id
                 }).then((creadingStepsAttchaments) => {
                     if (item.steps.length > 0) {
                         item.steps.map((steps) => {
                             plannersSteps.create({
                                 title: steps,
-                                status: false,
+                                status: true,
                                 plannerId: creadingStepsAttchaments.id,
                                 userId: req.user.id
                             })

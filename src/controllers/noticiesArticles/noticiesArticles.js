@@ -6,6 +6,9 @@ const NoticiesCategoryModel = require('../../models/noticiesCategories/noticiesC
 const NoticiesArticleModel = require('../../models/noticies/noticies');
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op;
+const path = require('path')
+const uuid = require('uuid')
+const multer = require('multer')
 
 
 
@@ -155,6 +158,32 @@ router.get('/notices', auth, (req, res) => {
 
 
 
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, __dirname + './../../../public/img/noticies')
+    },
+    filename: function (req, file, cb) {
+        const namePhoto = uuid.v4() + Date.now() + '.png'
+        cb(null, namePhoto)
+    }
+})
+
+var upload = multer({
+    storage: storage,
+    fileFilter: function (req, file, callback) {
+        var ext = path.extname(file.originalname);
+
+        callback(null, true)
+    },
+    onFileUploadStart: function (file) {
+    },
+});
+
+router.post('/noticies/img', upload.single('file'), function (req, res, next) {
+    const result = req.file
+    res.status(200).json(result)
+    return false;
+})
 
 
 

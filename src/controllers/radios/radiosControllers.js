@@ -2,11 +2,25 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../../Middleware/userMiddleware');
 const authAdmin = require('../../Middleware/adminMiddleware');
-const RadiosModel = require('../../models/radios/radios')
+const RadiosModel = require('../../models/radios/radios');
+const CountriesModel = require('../../models/countries/countries');
 
 
 
 
+// Get only one Radio
+router.get('/radio', (req, res) => {
+    const id = req.query['id'];
+    RadiosModel.findOne(
+        {
+            where: { id: id },
+            include: [{ model: CountriesModel }]
+        }
+    )
+        .then((data) => { res.status(200).json(data) })
+        .catch((error) => { res.status(400).json(error) });
+
+});
 
 // Get List of Radios
 router.get('/radios', (req, res) => {
@@ -16,13 +30,17 @@ router.get('/radios', (req, res) => {
     if (countryId !== undefined) {
         RadiosModel.findAll(
             {
+                include: [{ model: CountriesModel }],
                 where: { countryId: countryId },
             }
         )
             .then((data) => { res.status(200).json(data) })
             .catch((error) => { res.status(400).json(error) });
     } else {
-        RadiosModel.findAll()
+        RadiosModel.findAll({
+            include: [{ model: CountriesModel }],
+
+        })
             .then((data) => { res.status(200).json(data) })
             .catch((error) => { res.status(400).json(error) });
     }
@@ -48,10 +66,10 @@ router.post('/admin/radio', authAdmin, (req, res) => {
 });
 
 // Edit a Radio
-router.patch('/admin/city', authAdmin, (req, res) => {
+router.patch('/admin/radio', authAdmin, (req, res) => {
     const { title, link, img, countryId, id } = req.body;
 
-    if (title !== undefined && airport !== undefined && descriptions !== undefined && img !== undefined && englishTitle !== undefined && countryId !== undefined && id !== undefined) {
+    if (title !== undefined && img !== undefined && countryId !== undefined && id !== undefined) {
         RadiosModel.update({
             title: title,
             link: link,

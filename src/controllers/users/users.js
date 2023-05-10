@@ -14,7 +14,7 @@ const confirmEmail = require('../../sendEmails/emailsHTML/confirmEmail/confirmEm
 const newPasswordEmail = require('../../sendEmails/emailsHTML/newPassword/newPassword')
 
 
-var token = randtoken.generate(16);
+var tokenGenerador = randtoken.generate(16);
 
 
 //Add User
@@ -27,6 +27,7 @@ router.post('/user/add', (req, res) => {
             if (user) {
                 res.status(203).json({ message: 'Email used' });
             } else {
+                let token = randtoken.generate(16)
                 let salt = bcrypt.genSaltSync(10);
                 let hash = bcrypt.hashSync(password, salt)
                 usersModels.create({
@@ -120,11 +121,13 @@ router.post('/user/login', (req, res) => {
 
                             } else {
                                 // Send Token for valitation
+                                let token = randtoken.generate(16)
                                 emailVeridatorModels.create({
                                     userId: data.id,
                                     token: token,
                                     used: false
                                 }).then(() => {
+                                    console.log(token)
                                     sendEmail(email, 'Planejador de Intercâmbio - Confirme o seu email.', confirmEmail(data.name, token))
                                     res.status(203).json({ error: 'User not verified, new email sended' });
                                 })
@@ -167,6 +170,7 @@ router.post('/user/forget-password/add/', (req, res) => {
         if (data) {
             if (data.verified === false) {
                 //sendEmailConfirm(email)
+                let token = randtoken.generate(16)
                 emailVeridatorModels.create({
                     userId: data.id,
                     token: token,
@@ -176,6 +180,7 @@ router.post('/user/forget-password/add/', (req, res) => {
                     res.status(203).json({ error: 'User not verified, new email sended' });
                 })
             } else {
+                let token = randtoken.generate(16)
                 newPasswordModels.create({
                     token: token,
                     email: email,
