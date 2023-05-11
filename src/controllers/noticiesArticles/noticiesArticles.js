@@ -120,9 +120,11 @@ router.get('/notices', auth, (req, res) => {
 
 
     let noticiteCategoryAlReady = {}
+    console.log(country, category)
 
-    if (category !== undefined && category !== null) {
-        noticiteCategoryAlReady = { noticiesCategoryId: category }, { countryId: country }
+    if (category !== undefined && category !== undefined) {
+        console.log('aquiiiii*****')
+        noticiteCategoryAlReady = { countryId: country }, { noticiesCategoryId: category }
     } else {
         noticiteCategoryAlReady = { countryId: country }
     }
